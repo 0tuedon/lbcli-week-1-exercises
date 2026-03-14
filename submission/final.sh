@@ -22,22 +22,24 @@ echo "----------------------------------------"
 echo "Create a wallet named 'btrustwallet' to track your Bitcoin exploration"
 # STUDENT TASK: Use bitcoin-cli to create a wallet named "btrustwallet"
 # WRITE YOUR SOLUTION BELOW:
-
+bitcoin-cli createwallet "btrustwallet"
 
 # Create a second wallet that will hold the treasure
 echo "Now, create another wallet called 'treasurewallet' to fund your adventure"
 # STUDENT TASK: Create another wallet called "treasurewallet"
 # WRITE YOUR SOLUTION BELOW:
 
+bitcoin-cli createwallet "treasurewallet"
 
 # Generate an address for mining in the treasure wallet
 # STUDENT TASK: Generate a new address in the treasurewallet
 # WRITE YOUR SOLUTION BELOW:
-TREASURE_ADDR=
+TREASURE_ADDR=$(bitcoin-cli getnewaddress "treasure_address")
 check_cmd "Address generation"
 echo "Mining to address: $TREASURE_ADDR"
 
 # Mine some blocks to get initial coins
+bitcoin-cli generatetoaddress $TREASURE_ADDR
 mine_blocks 101 $TREASURE_ADDR
 
 # CHALLENGE PART 2: Check your starting balance 
@@ -47,7 +49,7 @@ echo "-----------------------------------------"
 echo "Check your wallet balance to see what resources you have to start"
 # STUDENT TASK: Get the balance of btrustwallet
 # WRITE YOUR SOLUTION BELOW:
-BALANCE=
+BALANCE=$(bitcoin-cli getbalance)
 check_cmd "Balance check"
 echo "Your starting balance: $BALANCE BTC"
 
@@ -59,16 +61,16 @@ echo "The treasure hunt requires 4 different types of addresses to collect funds
 echo "Generate one of each address type (legacy, p2sh-segwit, bech32, bech32m)"
 # STUDENT TASK: Generate addresses of each type
 # WRITE YOUR SOLUTION BELOW:
-LEGACY_ADDR=
+LEGACY_ADDR=$(bitcoin-cli getnewaddress "legacy_addr" "legacy")
 check_cmd "Legacy address generation"
 
-P2SH_ADDR=
+P2SH_ADDR=$(bitcoin-cli getnewaddress "p2sh_addr" "p2sh-segwit")
 check_cmd "P2SH address generation"
 
-SEGWIT_ADDR=
+SEGWIT_ADDR=$(bitcoin-cli getnewaddress "p2sh_addr" "bech32")
 check_cmd "SegWit address generation"
 
-TAPROOT_ADDR=
+TAPROOT_ADDR=$(bitcoin-cli getnewaddress "p2sh_addr" "bech32m")
 check_cmd "Taproot address generation"
 
 echo "Your exploration addresses:"
